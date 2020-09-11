@@ -1,7 +1,6 @@
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -11,8 +10,8 @@ public class Partido {
     @GeneratedValue
     private Long id;
 
-    private Calendar inicio;
-    private Calendar fin;
+    private LocalDateTime inicio;
+    private LocalDateTime fin;
     @ManyToOne
     private Cancha cancha;
     @ManyToOne
@@ -22,23 +21,28 @@ public class Partido {
     @ManyToMany
     private List<Participacion> participantes = new ArrayList<>();
 
-    public Partido(Calendar inicio, Calendar fin, Cancha cancha, Color colorCancha, Jugador jugadorReservante) {
+    public Partido(LocalDateTime inicio, LocalDateTime fin, Cancha cancha, Color colorCancha, Jugador jugadorReservante) {
+        cancha.verificarHorario(inicio, fin);
         this.inicio = inicio;
         this.fin = fin;
         this.cancha = cancha;
         this.jugadorReservante = jugadorReservante;
     }
 
-    public Calendar getInicio() {
+    public LocalDateTime getInicio() {
         return inicio;
     }
 
-    public Calendar getFin() {
+    public LocalDateTime getFin() {
         return fin;
     }
 
     public Cancha getCancha() {
         return cancha;
+    }
+
+    public Color getColorCancha() {
+        return colorCancha;
     }
 
     public List<Participacion> getParticipantes() {
@@ -52,6 +56,6 @@ public class Partido {
 
     public Boolean seSuperponeCon(Partido otroPartido) {
         return this.cancha.equals(otroPartido.getCancha()) &&
-                (this.inicio.after(otroPartido.getFin()) || this.fin.before(otroPartido.getInicio()));
+                (this.inicio.isAfter(otroPartido.getFin()) || this.fin.isBefore(otroPartido.getInicio()));
     }
 }

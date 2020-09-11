@@ -19,4 +19,12 @@ public class Participacion {
         this.jugador = jugador;
         this.paleta = jugador.getPaleta();
     }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Paleta getPaleta() {
+        return paleta;
+    }
 }
