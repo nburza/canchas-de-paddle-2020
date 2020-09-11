@@ -6,6 +6,7 @@ import java.util.List;
 
 public class RepositorioDePartidos implements WithGlobalEntityManager {
 
+    //esta lista sigue teniendo sentido o ahora solo uso el entity manager???
     private List<Partido> partidos = new ArrayList<>();
 
     public void reservar(Partido partido) {
